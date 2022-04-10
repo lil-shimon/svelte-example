@@ -7,16 +7,20 @@ import { slide } from 'svelte/transition'
  * id {number}
  * done {boolean}
  * title {string}
+ * priority {number}
  */
 let todos = []
 
 // Todo Title
 let title = ''
 
+// Todo Priority
+let priority = 0
+
 const add = () => {
 	todos = [
 		...todos,
-		{id: todos.length, done: false, title}
+		{id: todos.length, done: false, title, priority: priority}
 	]
 	// 最後にタイトルをクリア
 	init()
@@ -45,6 +49,18 @@ const init = () => {
 	title = ""
 	initFocus.focus();
 }
+
+const Priorities = {
+	LOW: 1,
+	MIDDLE: 2,
+	HIGH: 3
+}
+
+const prioritiesNames = {
+	[Priorities.LOW]: '低',
+	[Priorities.MIDDLE]: '中',
+	[Priorities.HIGH]: '高'
+}
 </script>
 
 <div>
@@ -56,6 +72,11 @@ const init = () => {
 <div>
 	<!-- input入力値とtitleを紐付ける -->
 	<input type="text" bind:value={title} bind:this={initFocus}>
+	<select id="priority" bind:value={priority}>
+		{#each Object.entries(prioritiesNames) as [value, label]}
+			<option value={value}>{label}</option>
+		{/each}
+	</select>
 	<button disabled={disabledAdd} on:click={() => add()}>タスク追加</button>
 </div>
 <div>
@@ -66,8 +87,9 @@ const init = () => {
 		<!-- foreach -->
 		<!-- (todo.id)と書くことでTodoとIdを紐付ける -> 変化を検知できる -->
 		{#each fileteredTodos(todos, condition) as todo (todo.id)}
+		<!-- transition:slideでslide時にanimationを追加 -->
 		<li transition:slide>
-			<input type="checkbox" bind:checked={todo.done}> {todo.title}
+			<input type="checkbox" bind:checked={todo.done}> {todo.title} {todo.priority}
 			<button on:click={() => deleteTodo(todo.id)}>削除</button>
 		</li>
 		{/each}
