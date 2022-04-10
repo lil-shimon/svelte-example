@@ -21,6 +21,13 @@ const add = () => {
 	init()
 }
 
+const deleteTodo = (todoId) => {
+	todos = todos.filter(todo => todo.id !== todoId)
+}
+
+// 何も入力されていない場合は追加できない様にする
+$: disabledAdd = title === ''
+
 let condition = null
 
 $: fileteredTodos = (todos, condition) => {
@@ -48,11 +55,11 @@ const init = () => {
 <div>
 	<!-- input入力値とtitleを紐付ける -->
 	<input type="text" bind:value={title} bind:this={initFocus}>
-	<button on:click={() => add()}>タスク追加</button>
+	<button disabled={disabledAdd} on:click={() => add()}>タスク追加</button>
 </div>
 <div>
 	{#if todos.length === 0}
-	<div>アイテムを作成してください</div>
+		<div>アイテムを作成してください</div>
 	{:else}
 	<ul>
 		<!-- foreach -->
@@ -60,6 +67,7 @@ const init = () => {
 		{#each fileteredTodos(todos, condition) as todo (todo.id)}
 		<li>
 			<input type="checkbox" bind:checked={todo.done}> {todo.title}
+			<button on:click={() => deleteTodo(todo.id)}>削除</button>
 		</li>
 		{/each}
 	</ul>
