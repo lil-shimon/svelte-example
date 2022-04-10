@@ -1,5 +1,6 @@
 <script>
 import { onMount } from 'svelte'
+import { slide } from 'svelte/transition'
 
 /**
  * Todos
@@ -65,7 +66,7 @@ const init = () => {
 		<!-- foreach -->
 		<!-- (todo.id)と書くことでTodoとIdを紐付ける -> 変化を検知できる -->
 		{#each fileteredTodos(todos, condition) as todo (todo.id)}
-		<li>
+		<li transition:slide>
 			<input type="checkbox" bind:checked={todo.done}> {todo.title}
 			<button on:click={() => deleteTodo(todo.id)}>削除</button>
 		</li>
