@@ -1,12 +1,13 @@
 <script>
 import { onMount } from 'svelte'
 
-// Todo
-let todos = [
-	{id: 0, done: false, title: 'レストランを予約する'},
-	{id: 1, done: false, title: 'サプライズ用の指輪を買う'},
-	{id: 2, done: false, title: 'スポーツをする'}
-]
+/**
+ * Todos
+ * id {number}
+ * done {boolean}
+ * title {string}
+ */
+let todos = []
 
 // Todo Title
 let title = ''
@@ -50,6 +51,9 @@ const init = () => {
 	<button on:click={() => add()}>タスク追加</button>
 </div>
 <div>
+	{#if todos.length === 0}
+	<div>アイテムを作成してください</div>
+	{:else}
 	<ul>
 		<!-- foreach -->
 		<!-- (todo.id)と書くことでTodoとIdを紐付ける -> 変化を検知できる -->
@@ -59,6 +63,7 @@ const init = () => {
 		</li>
 		{/each}
 	</ul>
+	{/if}
 </div>
 
 <style></style>
