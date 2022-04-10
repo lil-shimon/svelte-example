@@ -1,5 +1,9 @@
 <script>
-
+let todos = [
+	{id: 0, done: false, title: 'レストランを予約する'},
+	{id: 1, done: false, title: 'サプライズ用の指輪を買う'},
+	{id: 2, done: false, title: 'スポーツをする'}
+]
 </script>
 
 <div>
@@ -14,15 +18,12 @@
 </div>
 <div>
 	<ul>
+		<!-- foreach -->
+		{#each todos as todo (todo.id)}
 		<li>
-			<input type="checkbox"> レストランを予約する
+			<input type="checkbox" bind:checked={todo.done}> {todo.title}
 		</li>
-		<li>
-			<input type="checkbox"> サプライズ用の指輪を買う
-		</li>
-		<li>
-			<input type="checkbox"> スポーツをする
-		</li>
+		{/each}
 	</ul>
 </div>
 
